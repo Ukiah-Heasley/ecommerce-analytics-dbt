@@ -1,0 +1,142 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: >
+      One row per source `user_id` from the unioned auth_db + crm raw stream.
+      Renames, casts, and normalizes email (lower + trim → null) for downstream
+      identity resolution. No business logic, no joins.
+    columns:
+      - name: user_id
+        description: Natural key from the source system. Unique per `_source_system`.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: email_raw
+        description: As-received email string. Retained for audit/debug.
+        meta:
+          contains_pii: true
+
+      - name: email_normalized
+        description: >
+          Lowercased + trimmed email. NULL when source email is blank.
+          Used as the identity-resolution join key in `int_users`.
+        meta:
+          contains_pii: true
+
+      - name: phone
+        description: Trimmed phone string; NULL when source value is blank.
+        meta:
+          contains_pii: true
+
+      - name: _source_system
+        description: Originating system. Drives canonical-user tie-breaking.
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['auth_db', 'crm']
+
+      - name: created_at
+        data_tests:
+          - not_null
+
+      - name: updated_at
+        description: Source-side mutation timestamp. Drives snapshot SCD2 strategy.
+        data_tests:
+          - not_null
+
+  - name: stg_products
+    description: >
+      One row per `product_id` from the product catalog. CDC mirror — price
+      and name mutations update in place; SCD2 history is captured downstream
+      via `products_snapshot`.
+    columns:
+      - name: product_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: price
+        data_tests:
+          - not_null
+
+      - name: updated_at
+        description: Source-side mutation timestamp. Drives snapshot SCD2 strategy.
+        data_tests:
+          - not_null
+
+  - name: stg_sessions
+    description: >
+      Append-only event log. **Not unique on `session_id`** — duplicates are
+      expected at this layer and collapsed in `int_sessions_deduped`. Late
+      arrivals carry an old `started_at` with a current `_ingested_at`.
+    columns:
+      - name: session_id
+        description: >
+          Event identifier. Non-unique here by design; uniqueness is enforced
+          downstream after dedup.
+        data_tests:
+          - not_null
+
+      - name: started_at
+        description: Source-side event time. Stable across re-arrivals.
+        data_tests:
+          - not_null
+
+      - name: _ingested_at
+        description: Pipeline-side arrival time. Watermark for dedup ordering.
+        data_tests:
+          - not_null
+
+  - name: stg_transactions
+    description: >
+      One row per `transaction_id`. Refunds mutate the original row in place
+      (status flips, `refund_amount` and `refunded_at` populate, `updated_at`
+      advances) — pre-refund state is not recoverable from this layer alone.
+    columns:
+      - name: transaction_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        data_tests:
+          - not_null
+
+      - name: product_id
+        data_tests:
+          - not_null
+
+      - name: amount
+        data_tests:
+          - not_null
+
+      - name: status
+        description: >
+          Post-refund state. Refunds overwrite the original status; original
+          status is irrecoverable from this layer.
+        data_tests:
+          - not_null
+
+      - name: refund_reason_normalized
+        description: >
+          NULL-handled refund reason via the `refund_reason_normalized`
+          macro. NULL refund_reason on a refunded row → `'unknown'`; on a
+          non-refunded row → `'not applicable'`. Always non-null;
+          downstream `dim_refund_reason` join is safe.
+        data_tests:
+          - not_null
+
+      - name: event_at
+        description: Source-side purchase timestamp. Stable across mutations.
+        data_tests:
+          - not_null
+
+      - name: updated_at
+        description: >
+          Source-side mutation timestamp. Advances on any change to the row
+          (refunds are the most common in this dataset, but not the only
+          trigger).
+        data_tests:
+          - not_null

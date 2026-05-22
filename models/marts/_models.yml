@@ -1,0 +1,271 @@
+version: 2
+
+models:
+  # ─── Dimensions ────────────────────────────────────────────────────────
+
+  - name: dim_users
+    description: >
+      SCD2 user dimension. Each row is one version of one user, with
+      cross-source `canonical_user_id` attached. Includes a default row
+      (`user_sk = md5('unknown')`) so `fct_*` LEFT JOINs always resolve.
+    columns:
+      - name: user_sk
+        description: Surrogate key. Stable per (user_id, valid_from).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: >
+          Natural key. Not unique here — repeats once per SCD2 version, plus
+          one row for the `'unknown'` default.
+        data_tests:
+          - not_null
+
+      - name: canonical_user_id
+        description: >
+          Cross-source identity for the version's email. Use this (not
+          `user_id`) for any per-person aggregate. Equals `'unknown'` on the
+          default row — filter it out of `count(distinct …)` metrics.
+        data_tests:
+          - not_null
+
+      - name: email_raw
+        meta:
+          contains_pii: true
+
+      - name: email_normalized
+        meta:
+          contains_pii: true
+
+      - name: phone
+        meta:
+          contains_pii: true
+
+      - name: valid_from
+        data_tests:
+          - not_null
+
+      - name: is_current
+        data_tests:
+          - not_null
+
+  - name: dim_products
+    description: >
+      SCD2 product dimension. Built directly from `products_snapshot` (no
+      intermediate). Includes the `'unknown'` default row.
+    columns:
+      - name: product_sk
+        data_tests:
+          - unique
+          - not_null
+
+      - name: product_id
+        data_tests:
+          - not_null
+
+      - name: valid_from
+        data_tests:
+          - not_null
+
+      - name: is_current
+        data_tests:
+          - not_null
+
+  - name: dim_referrer
+    description: >
+      Type-1 dimension. One row per distinct `referrer` observed in
+      sessions, plus the `'unknown'` default row. Rebuilt fully each run —
+      referrer strings are immutable labels and don't need SCD2.
+    columns:
+      - name: referrer_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: referrer
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_refund_reason
+    description: >
+      Type-1 dimension. One row per distinct refund reason, plus two
+      default rows: `'unknown'` (refunded with NULL reason) and
+      `'not applicable'` (non-refunded transactions).
+    columns:
+      - name: refund_reason_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: refund_reason
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_session_context
+    description: >
+      Type-1 combinatorial dimension. Cross-product of all observed
+      `device_type` × `platform` values plus `'unknown'` on each side.
+      Acceptable at current cardinality; switch to "combinations seen in
+      data" if either column grows.
+    columns:
+      - name: session_context_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: device_type
+        data_tests:
+          - not_null
+
+      - name: platform
+        data_tests:
+          - not_null
+
+  # ─── Facts ─────────────────────────────────────────────────────────────
+
+  - name: fct_sessions
+    description: >
+      One row per session (post-dedup). Dim SKs resolved via event-time
+      SCD2 join (`started_at` between `valid_from` and `valid_to`). Carries
+      `canonical_user_id` so downstream per-person metrics don't need to
+      re-join `dim_users`.
+    columns:
+      - name: session_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: started_at
+        data_tests:
+          - not_null
+
+      - name: user_sk
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_sk
+
+      - name: canonical_user_id
+        data_tests:
+          - not_null
+
+      - name: session_context_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_session_context')
+              field: session_context_id
+
+      - name: referrer_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_referrer')
+              field: referrer_id
+
+      - name: _ingested_at
+        description: Incremental watermark column.
+        data_tests:
+          - not_null
+
+  - name: fct_transactions
+    description: >
+      One row per transaction. Refunds mutate the original row in place —
+      `status` reflects post-refund state. Dim SKs resolved via event-time
+      SCD2 join on `event_at` (purchase time), not `updated_at`, so
+      historical price/user attributes attach correctly even when a refund
+      arrives later.
+    columns:
+      - name: transaction_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: event_at
+        data_tests:
+          - not_null
+
+      - name: user_sk
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_sk
+
+      - name: canonical_user_id
+        data_tests:
+          - not_null
+
+      - name: product_sk
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_sk
+
+      - name: refund_reason_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_refund_reason')
+              field: refund_reason_id
+
+      - name: _ingested_at
+        description: Incremental watermark column.
+        data_tests:
+          - not_null
+
+  - name: fct_daily_sessions
+    description: >
+      Daily session aggregate. Uses **sliding lookback** (`started_at >=
+      max(session_day) - 2 days`) on incremental runs — appropriate because
+      session lateness is bounded by the generator's 2-day SLA. DAU is
+      `count(distinct canonical_user_id)` excluding the `'unknown'`
+      default row, so cross-source identity overlap collapses correctly.
+    columns:
+      - name: session_day
+        data_tests:
+          - unique
+          - not_null
+
+      - name: session_count
+        data_tests:
+          - not_null
+
+      - name: daily_logged_in_users
+        description: Distinct `canonical_user_id` seen logged-in that day.
+        data_tests:
+          - not_null
+
+  - name: fct_daily_transactions
+    description: >
+      Daily revenue aggregate. Uses **affected-partitions** on incremental
+      runs (not sliding lookback) — finds `event_at` days touched by new
+      `_ingested_at` activity since the last `ingested_at_high_water`, then
+      re-aggregates those days fully. Correctly captures arbitrarily-late
+      refunds whose original `event_at` falls outside any fixed window.
+    columns:
+      - name: transaction_day
+        data_tests:
+          - unique
+          - not_null
+
+      - name: gross_revenue
+        data_tests:
+          - not_null
+
+      - name: net_revenue
+        description: gross_revenue - total_refunds.
+        data_tests:
+          - not_null
+
+      - name: ingested_at_high_water
+        description: >
+          Per-partition watermark. Global max drives the affected-partitions
+          discovery query on the next incremental run.
+        data_tests:
+          - not_null

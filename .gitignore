@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# DuckDB database files
+*.duckdb
+*.duckdb.wal
+
+# Claude Code workspace notes — local only
+CLAUDE.md
+.claude/
+
+# Forward-looking proposals — kept local, not part of the public portfolio
+PROPOSALS/

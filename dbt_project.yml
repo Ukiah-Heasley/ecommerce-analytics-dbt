@@ -1,0 +1,34 @@
+name: ecommerce_analytics
+version: 1.0.0
+config-version: 2
+
+profile: ecommerce_analytics
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - target
+  - dbt_packages
+
+vars:
+  default_unknown: 'unknown'
+  default_not_applicable: 'not applicable'
+  # Max acceptable session lateness in days. Drives both the
+  # `fct_daily_sessions` sliding-lookback window AND the
+  # `audit_late_arrivals` SLA breach threshold — keep them in sync via
+  # this var. Set at 3 days for safety margin over the generator's
+  # nominal 2-day SLA.
+  session_lookback_days: 3
+  # How far back (by event time) `fct_sessions` and `fct_transactions`
+  # replay rows whose dim FK is still the default-row hash — i.e. rows
+  # waiting for a late-arriving dim row. After this window, unresolved
+  # rows are accepted as permanently default and stop replaying.
+  dim_resolution_replay_days: 30
+
+models:
+  ecommerce_analytics:

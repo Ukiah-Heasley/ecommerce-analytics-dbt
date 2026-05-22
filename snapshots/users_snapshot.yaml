@@ -1,0 +1,42 @@
+snapshots:
+  - name: users_snapshot
+    relation: ref('stg_users')
+    description: >
+      SCD2 history of `stg_users`. Captures every source-side change to user
+      attributes via `strategy: timestamp` driven by `updated_at`. No derived
+      columns — `canonical_user_id` is computed downstream in `int_users` to
+      avoid the "snapshot a view, miss its drift" failure mode.
+    config:
+      strategy: timestamp
+      unique_key: user_id
+      updated_at: updated_at
+      # 'new_record' inserts a deletion-event row when a source `user_id`
+      # disappears, preserving when the delete was observed. Default
+      # 'ignore' would leave deleted users looking current forever.
+      hard_deletes: new_record
+    columns:
+      - name: dbt_scd_id
+        description: SCD2 surrogate key. Unique per (user_id, dbt_valid_from).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        data_tests:
+          - not_null
+
+      - name: email_raw
+        meta:
+          contains_pii: true
+
+      - name: email_normalized
+        meta:
+          contains_pii: true
+
+      - name: phone
+        meta:
+          contains_pii: true
+
+      - name: dbt_valid_from
+        data_tests:
+          - not_null

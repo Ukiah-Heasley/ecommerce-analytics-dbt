@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: audit_late_arrivals
+    description: >
+      Sessions whose ingestion-to-event delay exceeds the
+      `session_lookback_days` var. These rows breach the SLA that
+      `fct_daily_sessions`'s sliding lookback assumes, and would be
+      silently dropped from the daily aggregate without instrumentation.
+      Query this view directly for triage; the singular test
+      `audit_late_arrivals_within_sla` warns on `dbt test` when it is
+      non-empty.
+    columns:
+      - name: session_id
+        description: Source session identifier. May appear multiple times if duplicated upstream.
+      - name: lateness_days
+        description: >
+          `_ingested_at::date - started_at::date`. Any value strictly
+          greater than `session_lookback_days` is an SLA breach.

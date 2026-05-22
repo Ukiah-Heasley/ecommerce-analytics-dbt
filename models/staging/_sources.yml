@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: >
+      Raw layer mirrored from upstream source systems. Loaded into DuckDB by
+      load_raw.py before dbt runs. CSVs live in data/ and are produced by
+      generate.py.
+    tables:
+      - name: raw_users
+        description: CDC mirror of the auth/CRM users table. One row per source user_id.
+        meta:
+          ingestion_pattern: replica
+
+      - name: raw_products
+        description: CDC mirror of the product catalog. Price and name changes mutate in place.
+        meta:
+          ingestion_pattern: replica
+
+      - name: raw_sessions
+        description: Append-only event log of user sessions. Never updated upstream.
+        meta:
+          ingestion_pattern: append_only
+
+      - name: raw_transactions
+        description: CDC mirror of payments. Refunds mutate the original row in place.
+        meta:
+          ingestion_pattern: replica

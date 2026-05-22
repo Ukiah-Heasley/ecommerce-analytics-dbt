@@ -1,0 +1,71 @@
+transaction_id,user_id,session_id,product_id,amount,currency,status,event_at,updated_at,refund_amount,refunded_at,refund_reason,_source_system,_ingested_at
+txn_f4ff3f3a,usr_32a447b2,ses_8b60c511,prd_41a64fed,126.12,USD,partially_refunded,2026-05-01 07:02:07,2026-05-06 22:00:00,33.4,2026-05-06 22:00:00,customer_request,payments,2026-05-06 23:00:00
+txn_efe9b3d0,usr_88bd13d1,ses_ac2b0cfc,prd_41a64fed,126.12,USD,completed,2026-05-01 21:59:25,2026-05-01 21:59:25,,,,payments,2026-05-01 23:00:00
+txn_1e086f20,usr_81f38dd4,ses_58330b30,prd_ff84faef,60.04,USD,completed,2026-05-01 10:10:57,2026-05-01 10:10:57,,,,payments,2026-05-01 23:00:00
+txn_7a9a8ef5,usr_3985fb62,ses_b42a0456,prd_c3affcfe,79.45,USD,completed,2026-05-01 14:41:31,2026-05-01 14:41:31,,,,payments,2026-05-01 23:00:00
+txn_9aba0f15,usr_ef8c485b,ses_1ce362f8,prd_90494583,173.28,EUR,refunded,2026-05-01 20:33:07,2026-05-03 16:00:00,173.28,2026-05-03 16:00:00,fraud,payments,2026-05-03 23:00:00
+txn_ea45ba41,usr_287d06ca,ses_ea2c7a51,prd_ff84faef,60.04,USD,completed,2026-05-01 06:55:57,2026-05-01 06:55:57,,,,payments,2026-05-01 23:00:00
+txn_c68813fe,usr_0f5ae9d3,ses_80a52e65,prd_41a64fed,126.12,USD,completed,2026-05-01 01:17:02,2026-05-01 01:17:02,,,,payments,2026-05-01 23:00:00
+txn_889d4b76,usr_adedda80,ses_b90ed44b,prd_b91e3d6e,17.3,USD,refunded,2026-05-01 20:09:03,2026-05-02 11:00:00,17.3,2026-05-02 11:00:00,customer_request,payments,2026-05-02 23:00:00
+txn_42f5b3f5,usr_01fa964e,ses_589decb0,prd_5716dc2e,81.91,USD,refunded,2026-05-01 22:56:33,2026-05-02 13:00:00,81.91,2026-05-02 13:00:00,duplicate_charge,payments,2026-05-02 23:00:00
+txn_7f4d908c,usr_287d06ca,ses_ea2c7a51,prd_24108e9a,80.77,USD,refunded,2026-05-01 06:56:02,2026-05-07 12:00:00,80.77,2026-05-07 12:00:00,duplicate_charge,payments,2026-05-07 23:00:00
+txn_4d8670bd,usr_23377bbc,ses_7580e050,prd_24108e9a,80.77,USD,completed,2026-05-02 01:35:51,2026-05-02 01:35:51,,,,payments,2026-05-02 23:00:00
+txn_2775ee42,usr_23377bbc,ses_7580e050,prd_4926ce5f,155.8,USD,completed,2026-05-02 01:49:29,2026-05-02 01:49:29,,,,payments,2026-05-02 23:00:00
+txn_6082786f,usr_8d2238e6,ses_d908a121,prd_7f7f6c0a,110.67,EUR,completed,2026-05-02 06:25:08,2026-05-02 06:25:08,,,,payments,2026-05-02 23:00:00
+txn_9912316a,usr_f0e98b3b,ses_ee9bf3e1,prd_1f33242d,106.54,USD,refunded,2026-05-02 21:14:04,2026-05-07 21:00:00,106.54,2026-05-07 21:00:00,customer_request,payments,2026-05-07 23:00:00
+txn_88cc4d49,usr_bf7b539b,ses_35ab8466,prd_b91e3d6e,17.3,USD,completed,2026-05-02 09:03:32,2026-05-02 09:03:32,,,,payments,2026-05-02 23:00:00
+txn_dea050c6,usr_f1eedba3,ses_ef145064,prd_797ebe87,74.53,USD,completed,2026-05-02 08:44:13,2026-05-02 08:44:13,,,,payments,2026-05-02 23:00:00
+txn_09697101,usr_7f9d3e64,ses_4c9d6907,prd_1f33242d,106.54,USD,completed,2026-05-02 20:10:35,2026-05-02 20:10:35,,,,payments,2026-05-02 23:00:00
+txn_b39e4df2,usr_f1eedba3,ses_ef145064,prd_90494583,173.28,EUR,completed,2026-05-02 08:38:48,2026-05-02 08:38:48,,,,payments,2026-05-02 23:00:00
+txn_98049562,usr_1d2324e6,ses_37fe032c,prd_1f33242d,106.54,USD,partially_refunded,2026-05-02 06:46:55,2026-05-04 14:00:00,67.47,2026-05-04 14:00:00,fraud,payments,2026-05-04 23:00:00
+txn_1bffa279,usr_5fbbf0b1,ses_883f13c6,prd_97fe56c5,130.24,USD,completed,2026-05-02 20:16:02,2026-05-02 20:16:02,,,,payments,2026-05-02 23:00:00
+txn_70aa5b0d,usr_812a1f9b,ses_224a66a6,prd_97fe56c5,130.24,USD,completed,2026-05-03 05:00:41,2026-05-03 05:00:41,,,,payments,2026-05-03 23:00:00
+txn_a0c9da72,usr_1c11f735,ses_ffd2f491,prd_ab7a3d1c,223.7,EUR,completed,2026-05-03 23:16:58,2026-05-03 23:16:58,,,,payments,2026-05-03 23:00:00
+txn_6965d1d1,usr_146d3f31,ses_591196dc,prd_b91e3d6e,17.3,USD,completed,2026-05-03 13:22:42,2026-05-03 13:22:42,,,,payments,2026-05-03 23:00:00
+txn_dc268108,usr_7914c120,ses_a39c9ec6,prd_41a64fed,126.12,USD,partially_refunded,2026-05-03 11:40:14,2026-05-05 18:00:00,95.81,2026-05-05 18:00:00,customer_request,payments,2026-05-05 23:00:00
+txn_19b814fc,usr_8d2238e6,ses_34ae4abd,prd_41a64fed,126.12,USD,completed,2026-05-03 12:23:50,2026-05-03 12:23:50,,,,payments,2026-05-03 23:00:00
+txn_96ee50e5,usr_a9320094,ses_7066e289,prd_7bf33a34,64.99,USD,completed,2026-05-04 00:08:56,2026-05-04 00:08:56,,,,payments,2026-05-03 23:00:00
+txn_f69777a1,usr_7f9d3e64,ses_17d50f59,prd_ff84faef,60.04,USD,partially_refunded,2026-05-03 16:12:32,2026-05-04 16:00:00,31.18,2026-05-04 16:00:00,customer_request,payments,2026-05-04 23:00:00
+txn_23cbe943,usr_a9320094,ses_3fead90a,prd_b91e3d6e,17.3,USD,completed,2026-05-03 13:10:03,2026-05-03 13:10:03,,,,payments,2026-05-03 23:00:00
+txn_159152f2,usr_9fd34579,ses_db8f0e32,prd_97fe56c5,130.24,USD,completed,2026-05-03 12:48:58,2026-05-03 12:48:58,,,,payments,2026-05-03 23:00:00
+txn_999a1d86,usr_a1c7cc8a,ses_b212a6ee,prd_a723fb72,58.62,USD,completed,2026-05-03 02:35:05,2026-05-03 02:35:05,,,,payments,2026-05-03 23:00:00
+txn_2e0869c1,usr_3d67cde9,ses_d259f960,prd_797ebe87,74.53,USD,completed,2026-05-04 23:42:08,2026-05-04 23:42:08,,,,payments,2026-05-04 23:00:00
+txn_3811b519,usr_9b4e2c24,ses_fd9cfbb0,prd_41a64fed,126.12,USD,completed,2026-05-04 04:19:01,2026-05-04 04:19:01,,,,payments,2026-05-04 23:00:00
+txn_c74e48ff,usr_9360715f,ses_23c97a1e,prd_cdd0b4d4,165.4,USD,completed,2026-05-04 20:02:01,2026-05-04 20:02:01,,,,payments,2026-05-04 23:00:00
+txn_fdd4ff21,usr_236c7b87,ses_f97c6c3c,prd_41a64fed,126.12,USD,completed,2026-05-04 04:58:33,2026-05-04 04:58:33,,,,payments,2026-05-04 23:00:00
+txn_c44fc4b8,usr_9360715f,ses_23c97a1e,prd_24108e9a,80.77,USD,partially_refunded,2026-05-04 19:46:23,2026-05-06 21:00:00,28.25,2026-05-06 21:00:00,fraud,payments,2026-05-06 23:00:00
+txn_f956be95,usr_56c438e4,ses_44cdbfdd,prd_a723fb72,58.62,USD,completed,2026-05-04 23:13:00,2026-05-04 23:13:00,,,,payments,2026-05-04 23:00:00
+txn_a8284442,usr_81f38dd4,ses_ce9e9ebd,prd_90494583,173.28,EUR,completed,2026-05-04 04:23:52,2026-05-04 04:23:52,,,,payments,2026-05-04 23:00:00
+txn_d0f81063,usr_b88ec318,ses_459ee674,prd_90494583,173.28,EUR,completed,2026-05-04 02:07:13,2026-05-04 02:07:13,,,,payments,2026-05-04 23:00:00
+txn_0e500785,usr_b8ba8368,ses_78c59073,prd_c3affcfe,79.45,USD,completed,2026-05-04 09:58:40,2026-05-04 09:58:40,,,,payments,2026-05-04 23:00:00
+txn_382b5b86,usr_38ab854c,ses_d1e91691,prd_4926ce5f,155.8,USD,completed,2026-05-04 19:37:16,2026-05-04 19:37:16,,,,payments,2026-05-04 23:00:00
+txn_54dccba5,usr_637e4b01,ses_f143e545,prd_1f33242d,106.54,USD,completed,2026-05-05 21:32:46,2026-05-05 21:32:46,,,,payments,2026-05-05 23:00:00
+txn_bee975da,usr_55ab946d,ses_9be4f19f,prd_48b763d5,15.87,USD,completed,2026-05-03 09:51:11,2026-05-03 09:51:11,,,,payments,2026-05-05 23:00:00
+txn_e5a3d8e9,usr_67884209,ses_643ffdae,prd_1f33242d,106.54,USD,completed,2026-05-05 14:03:29,2026-05-05 14:03:29,,,,payments,2026-05-05 23:00:00
+txn_d1403430,usr_9fd34579,ses_2bbba89d,prd_7f7f6c0a,110.67,EUR,completed,2026-05-05 17:43:24,2026-05-05 17:43:24,,,,payments,2026-05-05 23:00:00
+txn_47c4cc51,usr_812a1f9b,ses_d183010f,prd_7bf33a34,64.99,USD,completed,2026-05-05 06:27:02,2026-05-05 06:27:02,,,,payments,2026-05-05 23:00:00
+txn_b23909f4,usr_5e2ad32d,ses_b8d77d2f,prd_797ebe87,74.53,USD,completed,2026-05-05 13:15:11,2026-05-05 13:15:11,,,,payments,2026-05-05 23:00:00
+txn_de703b72,usr_812a1f9b,ses_d183010f,prd_b91e3d6e,17.3,USD,completed,2026-05-05 06:29:36,2026-05-05 06:29:36,,,,payments,2026-05-05 23:00:00
+txn_f96671a5,usr_55ab946d,,prd_90494583,173.28,EUR,completed,2026-05-05 16:43:58,2026-05-05 16:43:58,,,,payments,2026-05-05 23:00:00
+txn_d3692867,usr_80fb9296,ses_3ced4d1f,prd_48b763d5,15.87,USD,completed,2026-05-05 15:07:26,2026-05-05 15:07:26,,,,payments,2026-05-05 23:00:00
+txn_6ab19e15,usr_cae28e66,,prd_1f33242d,106.54,USD,completed,2026-05-05 07:21:58,2026-05-05 07:21:58,,,,payments,2026-05-05 23:00:00
+txn_da2cf852,usr_7f9d3e64,ses_439db29d,prd_24108e9a,80.77,USD,completed,2026-05-04 14:40:05,2026-05-04 14:40:05,,,,payments,2026-05-06 23:00:00
+txn_ad409244,usr_c76a8e0f,ses_38e59b27,prd_41a64fed,126.12,USD,completed,2026-05-06 10:07:17,2026-05-06 10:07:17,,,,payments,2026-05-06 23:00:00
+txn_1dabb10a,usr_06cb0fb3,ses_9ee339ff,prd_e0723d96,37.67,USD,completed,2026-05-06 01:59:55,2026-05-06 01:59:55,,,,payments,2026-05-06 23:00:00
+txn_e3ea2d7f,usr_9360715f,ses_39ec8ca1,prd_b91e3d6e,17.3,USD,completed,2026-05-06 02:54:37,2026-05-06 02:54:37,,,,payments,2026-05-06 23:00:00
+txn_236dd176,usr_7f9d3e64,ses_439db29d,prd_97fe56c5,130.24,USD,completed,2026-05-04 14:25:14,2026-05-04 14:25:14,,,,payments,2026-05-06 23:00:00
+txn_54231dbe,usr_451b4cf3,ses_6b382a0a,prd_b91e3d6e,17.3,USD,completed,2026-05-06 11:38:41,2026-05-06 11:38:41,,,,payments,2026-05-06 23:00:00
+txn_f480b91e,usr_dedab027,ses_68e5c8cd,prd_83c501cb,140.83,USD,completed,2026-05-06 11:43:13,2026-05-06 11:43:13,,,,payments,2026-05-06 23:00:00
+txn_bbaa574f,usr_23377bbc,ses_b60b4f87,prd_b91e3d6e,17.3,USD,completed,2026-05-06 16:14:29,2026-05-06 16:14:29,,,,payments,2026-05-06 23:00:00
+txn_57bcad3a,usr_939b462d,ses_ae423568,prd_797ebe87,74.53,USD,completed,2026-05-06 01:30:05,2026-05-06 01:30:05,,,,payments,2026-05-06 23:00:00
+txn_6676cc75,usr_939b462d,ses_7f53d344,prd_797ebe87,74.53,USD,completed,2026-05-06 17:32:48,2026-05-06 17:32:48,,,,payments,2026-05-06 23:00:00
+txn_c53f1db3,usr_ce9e1a11,ses_a6388854,prd_7bf33a34,64.99,USD,completed,2026-05-07 08:00:06,2026-05-07 08:00:06,,,,payments,2026-05-07 23:00:00
+txn_823c7ef9,usr_aa2960fd,ses_99966612,prd_cdd0b4d4,165.4,USD,completed,2026-05-07 17:58:09,2026-05-07 17:58:09,,,,payments,2026-05-07 23:00:00
+txn_4be318a8,usr_3985fb62,ses_1b37ef19,prd_7bf33a34,64.99,USD,completed,2026-05-07 13:45:25,2026-05-07 13:45:25,,,,payments,2026-05-07 23:00:00
+txn_5200044b,usr_1d2324e6,ses_be153187,prd_e0723d96,37.67,USD,completed,2026-05-07 02:19:16,2026-05-07 02:19:16,,,,payments,2026-05-07 23:00:00
+txn_189099c9,usr_fb37afae,ses_011c4544,prd_41a64fed,126.12,USD,completed,2026-05-07 23:00:09,2026-05-07 23:00:09,,,,payments,2026-05-07 23:00:00
+txn_c5f833cf,usr_fb37afae,ses_b5d9ad36,prd_ab7a3d1c,223.7,EUR,completed,2026-05-07 17:19:06,2026-05-07 17:19:06,,,,payments,2026-05-07 23:00:00
+txn_a07eafb1,usr_f4dbca07,ses_d10bf4dc,prd_7bf33a34,64.99,USD,completed,2026-05-07 19:59:37,2026-05-07 19:59:37,,,,payments,2026-05-07 23:00:00
+txn_a127dc6b,usr_aa2960fd,ses_99966612,prd_41a64fed,126.12,USD,completed,2026-05-07 18:09:53,2026-05-07 18:09:53,,,,payments,2026-05-07 23:00:00
+txn_af76b6c2,usr_96a402f2,ses_f692641a,prd_797ebe87,74.53,USD,completed,2026-05-07 20:18:57,2026-05-07 20:18:57,,,,payments,2026-05-07 23:00:00
+txn_34a0dcd4,usr_5380b904,ses_0a398bf7,prd_7f7f6c0a,110.67,EUR,completed,2026-05-07 03:20:22,2026-05-07 03:20:22,,,,payments,2026-05-07 23:00:00
