@@ -1,0 +1,64 @@
+appearance:
+  default: light
+  switcher: true
+
+# UC Berkeley palette adapted to the style guide.
+# Primary accent: Berkeley Blue. Secondary: California Gold.
+# Categorical palette leads with Berkeley Blue + Pacific slate so the
+# "highlight one, grey the rest" rule still applies — gold is reserved for
+# genuine secondary emphasis, not for distinguishing arbitrary categories.
+theme:
+  colorPalettes:
+    default:
+      light:
+        - "#003262"   # Berkeley Blue       — primary accent, the eye-draw
+        - "#46535E"   # Pacific (slate)     — neutral context series
+        - "#FDB515"   # California Gold     — secondary accent
+        - "#3B7EA1"   # Founders Rock       — tertiary blue
+        - "#C4820E"   # Medalist (dk gold)  — quaternary
+        - "#00A598"   # Lap Lane (teal)
+        - "#EE1F60"   # Rose Garden         — negative only
+      dark:
+        - "#00B0DA"   # Lawrence (lt blue)  — primary in dark mode
+        - "#B4B2A9"   # warm grey
+        - "#FDB515"   # California Gold
+        - "#7BAFD4"   # lighter Founders Rock
+        - "#D89339"   # lighter Medalist
+        - "#3CB890"
+        - "#F0537A"
+  colorScales:
+    default:
+      light:
+        - "#FAF5E6"   # soft gold (background tint)
+        - "#003262"   # Berkeley Blue
+      dark:
+        - "#1F2937"
+        - "#00B0DA"
+  colors:
+    primary:
+      light: "#003262"   # Berkeley Blue
+      dark: "#00B0DA"    # Lawrence
+    accent:
+      light: "#FDB515"   # California Gold
+      dark: "#FDB515"
+    base:
+      light: "#FAF5E6"   # soft gold page background
+      dark: "#15110B"    # warm dark (deep brown-black)
+    info:
+      light: "#00B0DA"   # Lawrence
+      dark: "#7BAFD4"
+    positive:
+      light: "#00A598"   # Lap Lane (teal)
+      dark: "#3CB890"
+    warning:
+      light: "#C4820E"   # Medalist
+      dark: "#D89339"
+    negative:
+      light: "#EE1F60"   # Rose Garden
+      dark: "#F0537A"
+
+plugins:
+  components:
+    "@evidence-dev/core-components": {}
+  datasources:
+    "@evidence-dev/duckdb": {}

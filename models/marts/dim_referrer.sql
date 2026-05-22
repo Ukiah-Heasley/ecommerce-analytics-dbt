@@ -14,5 +14,5 @@ from source
 union all
 
 select
-    {{ default_sk() }}             as referrer_id,
+    {{ default_sk() }} as referrer_id,
     '{{ var("default_unknown") }}' as referrer

@@ -20,12 +20,12 @@ combos as (
     select
         d.device_type,
         p.platform
-    from device_types d
-    cross join platforms p
+    from device_types as d
+    cross join platforms as p
 )
 
 select
-    md5(cast(device_type || '|' || platform as varchar)) as session_context_id,
     device_type,
-    platform
+    platform,
+    md5(cast(device_type || '|' || platform as varchar)) as session_context_id
 from combos

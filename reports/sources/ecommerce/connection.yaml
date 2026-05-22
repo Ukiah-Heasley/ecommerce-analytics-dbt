@@ -1,0 +1,4 @@
+name: ecommerce
+type: duckdb
+options:
+  filename: ../../../ecommerce_analytics.duckdb

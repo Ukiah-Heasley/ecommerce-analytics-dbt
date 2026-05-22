@@ -7,16 +7,16 @@ with source as (
 renamed as (
     select
         user_id,
-        email                       as email_raw,
-        nullif(trim(lower(email)), '') as email_normalized,
-        nullif(trim(phone), '')     as phone,
+        email as email_raw,
         first_name,
         last_name,
         status,
-        created_at::timestamp       as created_at,
-        updated_at::timestamp       as updated_at,
+        created_at::timestamp as created_at,
+        updated_at::timestamp as updated_at,
         _source_system,
-        _ingested_at::timestamp     as _ingested_at
+        _ingested_at::timestamp as _ingested_at,
+        nullif(trim(lower(email)), '') as email_normalized,
+        nullif(trim(phone), '') as phone
     from source
 )
 
