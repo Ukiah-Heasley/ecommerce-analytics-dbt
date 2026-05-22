@@ -9,7 +9,7 @@ with txns_to_aggregate as (
     from {{ ref('fct_transactions') }}
     where
         {{ is_revenue_status() }}
-        {% if is_incremental() %}
+    {% if is_incremental() %}
             and date_trunc('day', event_at)::date in (
                 select distinct date_trunc('day', event_at)::date
                 from {{ ref('fct_transactions') }}
