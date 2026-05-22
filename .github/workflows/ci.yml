@@ -6,6 +6,66 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      DBT_PROFILES_DIR: ${{ github.workspace }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install deps
+        run: pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: dbt deps
+        run: dbt deps
+
+      - name: yamllint
+        run: yamllint .
+
+      - name: Ruff format
+        run: ruff format scripts/
+
+      - name: Ruff check --fix
+        run: ruff check --fix scripts/
+
+      - name: SQLFluff fix
+        run: sqlfluff fix models tests analyses --disable-progress-bar
+        continue-on-error: true
+
+      - name: SQLFluff lint
+        run: sqlfluff lint models tests analyses
+
+      - name: dbt parse (refresh manifest for checkpoint)
+        run: dbt parse
+
+      - name: dbt-checkpoint (warn only)
+        continue-on-error: true
+        run: |
+          pre-commit run --all-files --hook-stage manual \
+            check-model-has-description \
+            check-model-columns-have-desc \
+            check-script-semicolon \
+            check-script-has-no-table-name \
+            check-source-has-description \
+            check-source-columns-have-desc \
+            check-model-has-tests \
+            check-model-has-tests-by-type
+
+      - name: Commit auto-fixes back to PR branch
+        if: github.event_name == 'pull_request'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: auto-fix lint (ruff + sqlfluff)"
+
   dbt-build:
     runs-on: ubuntu-latest
     env:

@@ -12,6 +12,8 @@ laptop.
 ![dbt](https://img.shields.io/badge/dbt-1.11-orange)
 ![DuckDB](https://img.shields.io/badge/DuckDB-1.5-yellow)
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Ruff](https://img.shields.io/badge/lint-ruff-261230)
+![SQLFluff](https://img.shields.io/badge/lint-sqlfluff-25c2a0)
 
 dbt-core 1.11 · dbt-duckdb 1.10 · DuckDB 1.5 · Python 3.13 · Faker
 
@@ -54,6 +56,27 @@ python scripts/generate.py            # +1 day
 python scripts/generate.py --days 3   # +3 days
 ```
 
+## Developer setup
+
+Linting + formatting runs locally via pre-commit and in CI:
+
+- **SQLFluff** — dbt-templated SQL, DuckDB dialect, dbt Labs' published ruleset
+- **Ruff** — Python lint + format (Black-compatible)
+- **yamllint** — YAML style (relaxed)
+- **dbt-checkpoint** — dbt project conventions (manual stage; warn-only in CI)
+
+```bash
+pip install -r requirements-dev.txt
+pre-commit install
+```
+
+Run checks on demand:
+
+```bash
+pre-commit run --all-files                       # default-stage hooks
+pre-commit run --all-files --hook-stage manual   # dbt-checkpoint warnings
+```
+
 ## Layout
 
 ```
@@ -69,6 +92,25 @@ scripts/
   load_raw.py     # CSV → DuckDB raw schema
 tests/            # singular tests (SLA breach audit)
 ```
+
+## Dashboard
+
+A static-HTML dashboard ([Evidence.dev](https://evidence.dev/)) lives in
+[reports/](reports/) and reads directly from the local DuckDB file. Style
+rules baked in via [reports/STYLE.md](reports/STYLE.md) +
+[reports/evidence.config.yaml](reports/evidence.config.yaml).
+
+```bash
+cd reports
+npm install                 # first time only
+npm run sources             # materialize queries from ../ecommerce_analytics.duckdb
+npm run dev                 # http://localhost:3000 — live-reload
+npm run build               # static site to reports/build/
+```
+
+The starter dashboard ships with revenue / AOV / refund-rate / top-products
+charts. Engagement, conversion, and retention pages are left as practice
+exercises — see [docs/REMAINING.md](docs/REMAINING.md).
 
 ## Design
 

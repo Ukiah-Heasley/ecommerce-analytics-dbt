@@ -93,6 +93,26 @@ pipeline.
 Late arrivals are an SLA concern, not a correctness defect, and should
 not block a build.
 
+## Quality tooling: warn-by-default for project conventions
+
+SQL syntax (SQLFluff) and Python (Ruff) lint failures hard-fail CI — they
+are mechanical and unambiguous. dbt-checkpoint failures (missing
+descriptions, missing tests, model-naming conventions) are reported as
+warnings: the project is still being built out, and these checks should
+guide work without blocking the build. The pre-commit config places
+dbt-checkpoint hooks on the `manual` stage so they don't run on every
+`git commit`; they can be invoked with
+`pre-commit run --hook-stage manual --all-files`. CI runs them with
+`continue-on-error: true`. Once the model layer stabilizes, flip
+dbt-checkpoint to a hard fail.
+
+The `.sqlfluff` config follows dbt Labs' published ruleset verbatim
+(`templater = dbt`, 80-col lines, lowercase identifiers, trailing commas,
+group-by by number, explicit aliasing) plus `dialect = duckdb` for local
+runs. `macros/` is excluded per dbt's published guidance — heavy Jinja
+confuses the parser — and `snapshots/` is excluded because the snapshot
+config block isn't valid SQL.
+
 ## Out of scope
 
 - Multi-currency normalization (no FX table)

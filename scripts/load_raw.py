@@ -67,7 +67,9 @@ def load_csv(con: duckdb.DuckDBPyConnection, table: str, csv_path: Path) -> int:
 
 def main() -> None:
     if not DATA_DIR.exists() or not any(DATA_DIR.glob("*.csv")):
-        raise SystemExit("No CSVs in data/. Run `python generate.py --reset` first.")
+        raise SystemExit(
+            "No CSVs in data/. Run `python generate.py --reset` first."
+        )
 
     con = connect()
     ensure_schema(con, RAW_SCHEMA)

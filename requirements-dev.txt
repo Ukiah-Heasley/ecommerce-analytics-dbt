@@ -1,0 +1,7 @@
+sqlfluff==4.2.1
+sqlfluff-templater-dbt==4.2.1
+ruff==0.15.14
+yamllint==1.37.1
+pre-commit==4.6.0
+# dbt-checkpoint is not on PyPI; it is invoked via pre-commit only.
+# See .pre-commit-config.yaml — repo: dbt-checkpoint/dbt-checkpoint @ v2.0.9.

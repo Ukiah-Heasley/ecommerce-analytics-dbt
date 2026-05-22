@@ -15,10 +15,10 @@ union all
 
 select
     {{ default_sk(var("default_not_applicable")) }} as refund_reason_id,
-    '{{ var("default_not_applicable") }}'           as refund_reason
+    '{{ var("default_not_applicable") }}' as refund_reason
 
 union all
 
 select
-    {{ default_sk() }}                              as refund_reason_id,
-    '{{ var("default_unknown") }}'                  as refund_reason
+    {{ default_sk() }} as refund_reason_id,
+    '{{ var("default_unknown") }}' as refund_reason

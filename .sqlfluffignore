@@ -1,0 +1,7 @@
+macros/
+snapshots/
+target/
+dbt_packages/
+.venv/
+logs/
+data/

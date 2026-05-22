@@ -5,7 +5,10 @@ with users as (
 ),
 
 distinct_email_user as (
-    select distinct user_id, email_normalized, _source_system
+    select distinct
+        user_id,
+        email_normalized,
+        _source_system
     from users
     where email_normalized is not null
 ),
@@ -23,10 +26,8 @@ canonical_map as (
 )
 
 select
-    u.dbt_scd_id                                            as user_sk,
+    u.dbt_scd_id as user_sk,
     u.user_id,
-    coalesce(c.canonical_user_id, u.user_id)                as canonical_user_id,
-    u.user_id != coalesce(c.canonical_user_id, u.user_id)   as is_merged,
     u.email_raw,
     u.email_normalized,
     u.phone,
@@ -37,10 +38,12 @@ select
     u.updated_at,
     u._source_system,
     u._ingested_at,
-    u.dbt_valid_from                                        as valid_from,
-    u.dbt_valid_to                                          as valid_to,
-    u.dbt_valid_to is null                                  as is_current
+    u.dbt_valid_from as valid_from,
+    u.dbt_valid_to as valid_to,
+    coalesce(c.canonical_user_id, u.user_id) as canonical_user_id,
+    u.user_id != coalesce(c.canonical_user_id, u.user_id) as is_merged,
+    u.dbt_valid_to is null as is_current
 
-from users u
-left join canonical_map c
+from users as u
+left join canonical_map as c
     on u.email_normalized = c.email_normalized

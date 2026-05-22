@@ -13,9 +13,19 @@ logs/
 *.duckdb
 *.duckdb.wal
 
+# Lint tool caches
+.ruff_cache/
+.sqlfluff_cache/
+
 # Claude Code workspace notes — local only
 CLAUDE.md
 .claude/
 
 # Forward-looking proposals — kept local, not part of the public portfolio
 PROPOSALS/
+
+# Evidence.dev dashboard
+reports/node_modules/
+reports/build/
+reports/.evidence/template/
+reports/static/data/

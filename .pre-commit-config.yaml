@@ -1,0 +1,81 @@
+# Pre-commit hooks for the ecommerce-analytics-dbt project.
+#
+# Hooks split across two stages:
+#   - default (runs on `git commit`): Ruff, SQLFluff, yamllint, basic file
+#     hygiene. These hard-fail commits.
+#   - manual: dbt-checkpoint conventions. Invoke explicitly with
+#     `pre-commit run --hook-stage manual --all-files`. Warn-only by design;
+#     the model layer is still being built.
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+        exclude: ^(snapshots/|dbt_packages/|target/)
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.14
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+        args: [--strict]
+
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 4.2.1
+    hooks:
+      - id: sqlfluff-lint
+        additional_dependencies:
+          - dbt-core==1.11.11
+          - dbt-duckdb==1.10.1
+          - sqlfluff-templater-dbt==4.2.1
+        files: ^(models|tests|analyses)/.*\.sql$
+      - id: sqlfluff-fix
+        additional_dependencies:
+          - dbt-core==1.11.11
+          - dbt-duckdb==1.10.1
+          - sqlfluff-templater-dbt==4.2.1
+        files: ^(models|tests|analyses)/.*\.sql$
+
+  # dbt-parse regenerates target/manifest.json so dbt-checkpoint hooks see
+  # the latest model graph. Uses the project's .venv via `language: system`
+  # to avoid pre-commit re-installing dbt in an isolated env.
+  - repo: local
+    hooks:
+      - id: dbt-parse
+        name: dbt parse (refresh manifest)
+        entry: dbt parse
+        language: system
+        pass_filenames: false
+        stages: [manual]
+        always_run: true
+
+  - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
+    rev: v2.0.9
+    hooks:
+      - id: check-model-has-description
+        stages: [manual]
+      - id: check-model-columns-have-desc
+        stages: [manual]
+      - id: check-script-semicolon
+        stages: [manual]
+      - id: check-script-has-no-table-name
+        stages: [manual]
+      - id: check-source-has-description
+        stages: [manual]
+      - id: check-source-columns-have-desc
+        stages: [manual]
+      - id: check-model-has-tests
+        args: [--test-cnt, "1"]
+        stages: [manual]
+      - id: check-model-has-tests-by-type
+        args: [--tests, "schema=1"]
+        stages: [manual]
