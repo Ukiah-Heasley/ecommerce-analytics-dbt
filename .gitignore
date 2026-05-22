@@ -27,5 +27,5 @@ PROPOSALS/
 # Evidence.dev dashboard
 reports/node_modules/
 reports/build/
-reports/.evidence/template/
+reports/.evidence/
 reports/static/data/
