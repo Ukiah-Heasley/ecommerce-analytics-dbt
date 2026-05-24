@@ -29,3 +29,4 @@ reports/node_modules/
 reports/build/
 reports/.evidence/
 reports/static/data/
+dbt_internal_packages/

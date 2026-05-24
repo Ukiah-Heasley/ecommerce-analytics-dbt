@@ -46,7 +46,7 @@ export DBT_PROFILES_DIR=$(pwd)
 
 python scripts/generate.py --reset --days 7   # E — simulate extracts
 python scripts/load_raw.py                    # L — land CSVs in raw schema
-dbt deps && dbt snapshot && dbt run && dbt test
+dbt deps && dbt build
 ```
 
 Advance the simulated clock without resetting:
@@ -54,6 +54,8 @@ Advance the simulated clock without resetting:
 ```bash
 python scripts/generate.py            # +1 day
 python scripts/generate.py --days 3   # +3 days
+python scripts/load_raw.py            # land new CSVs in raw schema
+dbt build                             # refresh staging → snapshots → marts
 ```
 
 ## Developer setup
