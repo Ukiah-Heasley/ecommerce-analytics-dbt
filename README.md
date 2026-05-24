@@ -60,11 +60,13 @@ dbt build                             # refresh staging → snapshots → marts
 
 ## Developer setup
 
-Linting + formatting runs locally via pre-commit and in CI:
+Linting + formatting is defined in [`.pre-commit-config.yaml`](.pre-commit-config.yaml)
+and CI runs the same hooks — one config, no drift:
 
-- **SQLFluff** — dbt-templated SQL, DuckDB dialect, dbt Labs' published ruleset
-- **Ruff** — Python lint + format (Black-compatible)
-- **yamllint** — YAML style (relaxed)
+- **SQLFluff** — dbt-templated SQL lint (DuckDB dialect); fix locally with
+  `sqlfluff fix models tests analyses` when needed
+- **Ruff** — Python lint + format on `scripts/`
+- **yamllint** — YAML style (relaxed rules in [`.yamllint`](.yamllint))
 - **dbt-checkpoint** — dbt project conventions (manual stage; warn-only in CI)
 
 ```bash
@@ -75,7 +77,7 @@ pre-commit install
 Run checks on demand:
 
 ```bash
-pre-commit run --all-files                       # default-stage hooks
+pre-commit run --all-files                       # same checks CI enforces
 pre-commit run --all-files --hook-stage manual   # dbt-checkpoint warnings
 ```
 
@@ -111,8 +113,7 @@ npm run build               # static site to reports/build/
 ```
 
 The starter dashboard ships with revenue / AOV / refund-rate / top-products
-charts. Engagement, conversion, and retention pages are left as practice
-exercises — see [docs/REMAINING.md](docs/REMAINING.md).
+charts on two pages ([revenue detail](reports/pages/revenue.md)).
 
 ## Design
 

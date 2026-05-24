@@ -102,9 +102,11 @@ warnings: the project is still being built out, and these checks should
 guide work without blocking the build. The pre-commit config places
 dbt-checkpoint hooks on the `manual` stage so they don't run on every
 `git commit`; they can be invoked with
-`pre-commit run --hook-stage manual --all-files`. CI runs them with
-`continue-on-error: true`. Once the model layer stabilizes, flip
-dbt-checkpoint to a hard fail.
+`pre-commit run --hook-stage manual --all-files`. CI runs the same
+`.pre-commit-config.yaml` via `pre-commit run --all-files` for mechanical
+checks and the manual stage with `continue-on-error: true` for
+dbt-checkpoint. Once the model layer stabilizes, flip dbt-checkpoint to a
+hard fail.
 
 The `.sqlfluff` config follows dbt Labs' published ruleset verbatim
 (`templater = dbt`, 80-col lines, lowercase identifiers, trailing commas,
