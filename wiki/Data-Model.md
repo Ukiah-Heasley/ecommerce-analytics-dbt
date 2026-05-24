@@ -33,8 +33,8 @@ flowchart LR
 
 | Model | Grain | Source of truth |
 |---|---|---|
-| `dim_users` | one row per canonical user version (SCD2) | `snapshots/users` + `int_users` (identity resolution) |
-| `dim_products` | one row per product version (SCD2) | `snapshots/products` |
+| `dim_users` | one row per canonical user version (SCD2) | `users_snapshot` + `int_users` (identity resolution) |
+| `dim_products` | one row per product version (SCD2) | `products_snapshot` |
 | `dim_session_context` | one row per device × browser × OS triple | derived in mart |
 | `dim_referrer` | one row per referrer host | derived in mart |
 | `dim_refund_reason` | one row per refund reason code | derived in mart |

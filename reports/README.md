@@ -9,14 +9,7 @@ Full dashboard docs: [Wiki → Dashboard](https://github.com/Ukiah-Heasley/ecomm
 
 ## Local development
 
-Build the warehouse from the **repo root** first:
-
-```bash
-export DBT_PROFILES_DIR=$(pwd)
-python scripts/generate.py --reset --days 7
-python scripts/load_raw.py
-dbt build
-```
+Build the warehouse first — see [Developer Setup (wiki)](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki/Developer-Setup) or the repo [README quickstart](../README.md#quickstart).
 
 Then:
 

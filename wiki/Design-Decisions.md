@@ -32,7 +32,7 @@ The pre-commit config places dbt-checkpoint hooks on the `manual` stage so they 
 pre-commit run --all-files --hook-stage manual
 ```
 
-Once the model layer stabilizes, flip dbt-checkpoint to a hard fail and remove the warn-only escape hatch.
+Once the model layer stabilizes, flip dbt-checkpoint to a hard fail and remove the warn-only escape hatch. Tracked on the repo [README Roadmap](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt#roadmap).
 
 ## SQLFluff config follows dbt Labs' published ruleset
 

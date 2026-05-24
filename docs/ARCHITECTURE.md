@@ -1,5 +1,7 @@
 # Architecture
 
+> Narrative content lives on the wiki. This file is a redirect for repo browsing.
+
 Full architecture documentation lives in the project wiki:
 
 **[Architecture →](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki/Architecture)**

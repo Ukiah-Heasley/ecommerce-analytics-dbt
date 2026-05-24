@@ -1,18 +1,16 @@
-# Wiki source files
+# Syncing wiki source to GitHub Wiki
 
-This folder is the **source of truth** for the GitHub Wiki. It is tracked in the
-main repo (not gitignored) so wiki content is versioned alongside the code.
+The [`wiki/`](../wiki/) folder is the **source of truth** for the GitHub Wiki. It is
+tracked in the main repo so wiki content is versioned alongside the code.
 
-## What lives here vs elsewhere
+## What lives where
 
 | Content | Location |
 |---------|----------|
 | Architecture, data model, edge cases, design rationale | `wiki/` → GitHub Wiki |
 | Portfolio landing + quickstart | `README.md` |
-| GitHub Pages deploy ops (maintainers) | `docs/DEPLOY.md` |
+| GitHub Pages deploy ops | [DEPLOY.md](DEPLOY.md) |
 | Dashboard local dev commands | `reports/README.md` |
-
-The live dashboard at [ukiah-heasley.github.io/ecommerce-analytics-dbt](https://ukiah-heasley.github.io/ecommerce-analytics-dbt/) replaces static screenshots — wiki pages link to it directly.
 
 ## First-time setup (wiki does not exist yet)
 
@@ -21,7 +19,7 @@ the first page via the web UI.
 
 1. Open **[Settings → General → Features](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/settings)** → enable **Wikis**.
 2. Go to the repo **Wiki** tab → **Create the first page** (any title/body — this initializes the remote).
-3. Publish from this folder (see below).
+3. Publish from `wiki/` (see below).
 
 ## Publish updates
 

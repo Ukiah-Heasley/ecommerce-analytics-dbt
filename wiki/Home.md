@@ -14,6 +14,7 @@ dbt-core 1.11 · dbt-duckdb 1.10 · DuckDB 1.5 · Python 3.13 · Faker · Eviden
 
 | If you want to… | Go to |
 |---|---|
+| Clone and run the pipeline | [README (repo)](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt#quickstart) |
 | Understand the layered architecture | [[Architecture]] |
 | See every dim and fact in one place | [[Data-Model]] |
 | Read the modeling rationale | [[Design-Decisions]] |
@@ -23,17 +24,7 @@ dbt-core 1.11 · dbt-duckdb 1.10 · DuckDB 1.5 · Python 3.13 · Faker · Eviden
 
 ## Quickstart
 
-```bash
-git clone https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt
-cd ecommerce-analytics-dbt
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-export DBT_PROFILES_DIR=$(pwd)
-
-python scripts/generate.py --reset --days 7   # E — simulate extracts
-python scripts/load_raw.py                    # L — land CSVs in raw schema
-dbt deps && dbt build
-```
+See the repo [README](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt#quickstart) for the canonical clone-and-run steps.
 
 See [[Developer-Setup]] for linting, pre-commit, and dashboard tooling.
 

@@ -2,6 +2,8 @@
 
 Everything you need to develop on the project locally — dependencies, linting, pre-commit, and dashboard tooling.
 
+For the canonical clone-and-run quickstart, see the repo [README](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt#quickstart).
+
 ## Prerequisites
 
 - Python 3.13
@@ -11,8 +13,6 @@ Everything you need to develop on the project locally — dependencies, linting,
 ## Python environment
 
 ```bash
-git clone https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt
-cd ecommerce-analytics-dbt
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pip install -r requirements-dev.txt

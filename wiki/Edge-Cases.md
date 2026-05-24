@@ -36,7 +36,7 @@ group by session_id having count(*) > 1;
 **How the pipeline handles it:**
 - `fct_daily_sessions` uses an event-time lookback window of `session_lookback_days` (3 by default) so late arrivals re-aggregate into the correct historical day.
 - `audit_late_arrivals` surfaces any session whose ingest lateness exceeds the lookback window.
-- The singular SLA test on top of the audit is `severity: warn` — late arrivals are an SLA concern, not a correctness defect, and shouldn't block a build.
+- The singular SLA test on top of the audit is `severity: warn` — see [[Design-Decisions#Audit, warn, do not fail]] for why late arrivals warn instead of failing the build.
 
 **Inspect:**
 ```sql
@@ -77,7 +77,7 @@ group by email_normalized having count(distinct user_id) > 1;
 
 **What the generator does:** Roughly 1 product per ~3 days gets a price bump. The row mutates in place in `raw_products`; `updated_at` advances.
 
-**How the pipeline handles it:** `snapshots/products` captures the SCD2 history. `fct_transactions` joins `dim_products` on event time:
+**How the pipeline handles it:** `products_snapshot` captures the SCD2 history. `fct_transactions` joins `dim_products` on event time:
 
 ```sql
 and ft.event_at >= dp.valid_from

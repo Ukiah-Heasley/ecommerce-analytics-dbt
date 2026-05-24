@@ -1,5 +1,7 @@
 # Design
 
+> Narrative content lives on the wiki. This file is a redirect for repo browsing.
+
 Design rationale and tooling decisions live in the project wiki:
 
 **[Design Decisions →](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki/Design-Decisions)**
