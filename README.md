@@ -2,42 +2,16 @@
 
 ![CI](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/actions/workflows/ci.yml/badge.svg)
 
-End-to-end dbt + DuckDB pipeline modeling an e-commerce warehouse: simulated
-source extracts → raw landing → staging → intermediate → marts, with SCD2
-snapshots, identity resolution, late-arrival handling, and audit tests.
-
-Built as a hands-on exercise in production-grade analytics engineering on a
-laptop.
-
-## Stack
+End-to-end dbt + DuckDB pipeline: simulated source extracts → raw landing → staging →
+intermediate → marts, with SCD2 snapshots, identity resolution, late-arrival handling,
+and an Evidence.dev dashboard — all runnable on a laptop.
 
 ![dbt](https://img.shields.io/badge/dbt-1.11-orange)
 ![DuckDB](https://img.shields.io/badge/DuckDB-1.5-yellow)
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
-![Ruff](https://img.shields.io/badge/lint-ruff-261230)
-![SQLFluff](https://img.shields.io/badge/lint-sqlfluff-25c2a0)
 
-dbt-core 1.11 · dbt-duckdb 1.10 · DuckDB 1.5 · Python 3.13 · Faker
-
-## What it models
-
-- **Sources:** `users` (auth_db + crm), `products`, `sessions`, `transactions`
-- **Snapshots:** SCD2 for users and products
-- **Marts:**
-  - `dim_users`, `dim_products`, `dim_session_context`, `dim_referrer`, `dim_refund_reason`
-  - `fct_sessions`, `fct_transactions`
-  - `fct_daily_sessions`, `fct_daily_transactions`
-- **Audit:** `audit_late_arrivals` + SLA breach test
-
-## Realistic edge cases baked into the generator
-
-- CDC vs append-only ingestion patterns side by side
-- Refunds that mutate the original transaction row (snapshot territory)
-- Duplicate + late-arriving session events (event-time lookback windows)
-- Cross-source identity overlap on normalized email (identity resolution)
-- Periodic price changes (SCD2 point-in-time revenue attribution)
-
-Deterministic seed — same inputs every run.
+**Live demo:** [ukiah-heasley.github.io/ecommerce-analytics-dbt](https://ukiah-heasley.github.io/ecommerce-analytics-dbt/) ·
+**Docs:** [Wiki](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki)
 
 ## Quickstart
 
@@ -51,82 +25,28 @@ python scripts/load_raw.py                    # L — land CSVs in raw schema
 dbt deps && dbt build
 ```
 
-Advance the simulated clock without resetting:
+Advance the simulated clock: `python scripts/generate.py` → `load_raw.py` → `dbt build`.
 
-```bash
-python scripts/generate.py            # +1 day
-python scripts/generate.py --days 3   # +3 days
-python scripts/load_raw.py            # land new CSVs in raw schema
-dbt build                             # refresh staging → snapshots → marts
-```
+## What it models
 
-## Developer setup
+- **Sources:** `users` (auth_db + crm), `products`, `sessions`, `transactions`
+- **Snapshots:** SCD2 for users and products
+- **Marts:** dims + facts at event and daily grain
+- **Audit:** late-arrival SLA surface + warn-only test
 
-Linting + formatting is defined in [`.pre-commit-config.yaml`](.pre-commit-config.yaml)
-and CI runs the same hooks — one config, no drift:
+Edge cases baked into the generator: CDC vs append-only ingestion, refund mutations,
+duplicate/late session events, cross-source identity overlap, periodic price changes.
 
-- **SQLFluff** — dbt-templated SQL lint (DuckDB dialect); fix locally with
-  `sqlfluff fix models tests analyses` when needed
-- **Ruff** — Python lint + format on `scripts/`
-- **yamllint** — YAML style (relaxed rules in [`.yamllint`](.yamllint))
-- **dbt-checkpoint** — dbt project conventions (manual stage; warn-only in CI)
+## Documentation
 
-```bash
-pip install -r requirements-dev.txt
-pre-commit install
-```
+| Topic | Location |
+|-------|----------|
+| Architecture, data model, edge cases, design rationale | [Wiki](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki) |
+| Local dev, linting, pre-commit | [Developer Setup (wiki)](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki/Developer-Setup) |
+| Dashboard pages and styling | [Dashboard (wiki)](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki/Dashboard) |
+| GitHub Pages deploy (maintainers) | [`docs/DEPLOY.md`](docs/DEPLOY.md) |
 
-Run checks on demand:
-
-```bash
-pre-commit run --all-files                       # same checks CI enforces
-pre-commit run --all-files --hook-stage manual   # dbt-checkpoint warnings
-```
-
-## Layout
-
-```
-models/
-  staging/        # 1:1 with sources, light typing + renames
-  intermediate/   # dedup, identity resolution
-  marts/          # dims + facts (grain: event, daily)
-  utilities/      # audit models
-snapshots/        # SCD2 for users, products
-macros/           # default-row SK, revenue status, refund normalization
-scripts/
-  generate.py     # Faker-based source simulator (deterministic)
-  load_raw.py     # CSV → DuckDB raw schema
-tests/            # singular tests (SLA breach audit)
-```
-
-## Dashboard
-
-A static-HTML dashboard ([Evidence.dev](https://evidence.dev/)) lives in
-[reports/](reports/) and reads directly from the local DuckDB file. Style
-rules baked in via [reports/STYLE.md](reports/STYLE.md) +
-[reports/evidence.config.yaml](reports/evidence.config.yaml).
-
-**Live demo:** [ukiah-heasley.github.io/ecommerce-analytics-dbt](https://ukiah-heasley.github.io/ecommerce-analytics-dbt/)
-— published on push to `master` after [GitHub Pages is enabled](docs/DEPLOY.md).
-
-```bash
-cd reports
-npm install                 # first time only
-npm run sources             # materialize queries from ../ecommerce_analytics.duckdb
-npm run dev                 # http://localhost:3000 — live-reload
-npm run build               # static site to reports/build/ecommerce-analytics-dbt/
-```
-
-The starter dashboard ships with revenue / AOV / refund-rate / top-products
-charts on two pages ([revenue detail](reports/pages/revenue.md)).
-
-## Design
-
-Key decisions and rationale in [docs/DESIGN.md](docs/DESIGN.md): E+L/T
-separation, snapshot scope, identity resolution, default-row pattern,
-bounded replay for late-arriving dims, point-in-time joins.
-
-Pipeline overview: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Wiki source files live in [`wiki/`](wiki/) — tracked in this repo, published to GitHub Wiki.
 
 ## License
 

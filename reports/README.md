@@ -1,17 +1,15 @@
 # E-commerce analytics dashboard
 
 [Evidence.dev](https://evidence.dev/) static site over the dbt marts in
-`../ecommerce_analytics.duckdb`. Part of the
-[ecommerce-analytics-dbt](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt)
-portfolio project.
+`../ecommerce_analytics.duckdb`.
 
 **Live demo:** [ukiah-heasley.github.io/ecommerce-analytics-dbt](https://ukiah-heasley.github.io/ecommerce-analytics-dbt/)
-(after [GitHub Pages is enabled](../docs/DEPLOY.md))
 
-## Prerequisites
+Full dashboard docs: [Wiki → Dashboard](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/wiki/Dashboard)
 
-Build the warehouse from the **repo root** first — Evidence reads the DuckDB
-file produced by dbt:
+## Local development
+
+Build the warehouse from the **repo root** first:
 
 ```bash
 export DBT_PROFILES_DIR=$(pwd)
@@ -20,37 +18,17 @@ python scripts/load_raw.py
 dbt build
 ```
 
-## Local development
+Then:
 
 ```bash
 cd reports
 npm install          # first time
-npm run sources      # refresh parquet from ../ecommerce_analytics.duckdb
+npm run sources      # refresh from ../ecommerce_analytics.duckdb
 npm run dev          # http://localhost:3000
-```
-
-## Production build
-
-```bash
 npm run build        # output → build/ecommerce-analytics-dbt/
 npm run preview      # serve the built site locally
 ```
 
-The build uses `deployment.basePath: /ecommerce-analytics-dbt` in
-[`evidence.config.yaml`](evidence.config.yaml) for GitHub Pages. See
-[`docs/DEPLOY.md`](../docs/DEPLOY.md) for the CI deploy workflow.
+Style rules: [`STYLE.md`](STYLE.md) · theme: [`evidence.config.yaml`](evidence.config.yaml)
 
-## Style
-
-Chart and layout rules: [`STYLE.md`](STYLE.md)
-
-## Pages
-
-| Page | File | Content |
-|------|------|---------|
-| Executive summary | [`pages/index.md`](pages/index.md) | KPIs, revenue trend, AOV, refund rate |
-| Revenue & products | [`pages/revenue.md`](pages/revenue.md) | Top products by revenue and order count |
-
-Main project docs: [`../README.md`](../README.md) ·
-[`../docs/DESIGN.md`](../docs/DESIGN.md) ·
-[`../docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md)
+Deploy: [`docs/DEPLOY.md`](../docs/DEPLOY.md)
