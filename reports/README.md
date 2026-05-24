@@ -1,48 +1,56 @@
-# Evidence Template Project
+# E-commerce analytics dashboard
 
-## Using Codespaces
+[Evidence.dev](https://evidence.dev/) static site over the dbt marts in
+`../ecommerce_analytics.duckdb`. Part of the
+[ecommerce-analytics-dbt](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt)
+portfolio project.
 
-If you are using this template in Codespaces, click the `Start Evidence` button in the bottom status bar. This will install dependencies and open a preview of your project in your browser - you should get a popup prompting you to open in browser.
+**Live demo:** [ukiah-heasley.github.io/ecommerce-analytics-dbt](https://ukiah-heasley.github.io/ecommerce-analytics-dbt/)
+(after [GitHub Pages is enabled](../docs/DEPLOY.md))
 
-Or you can use the following commands to get started:
+## Prerequisites
 
-```bash
-npm install
-npm run sources
-npm run dev -- --host 0.0.0.0
-```
-
-See [the CLI docs](https://docs.evidence.dev/cli/) for more command information.
-
-**Note:** Codespaces is much faster on the Desktop app. After the Codespace has booted, select the hamburger menu → Open in VS Code Desktop.
-
-## Get Started from VS Code
-
-The easiest way to get started is using the [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=Evidence.evidence-vscode):
-
-
-
-1. Install the extension from the VS Code Marketplace
-2. Open the Command Palette (Ctrl/Cmd + Shift + P) and enter `Evidence: New Evidence Project`
-3. Click `Start Evidence` in the bottom status bar
-
-## Get Started using the CLI
+Build the warehouse from the **repo root** first — Evidence reads the DuckDB
+file produced by dbt:
 
 ```bash
-npx degit evidence-dev/template my-project
-cd my-project
-npm install
-npm run sources
-npm run dev
+export DBT_PROFILES_DIR=$(pwd)
+python scripts/generate.py --reset --days 7
+python scripts/load_raw.py
+dbt build
 ```
 
-Check out the docs for [alternative install methods](https://docs.evidence.dev/getting-started/install-evidence) including Docker, Github Codespaces, and alongside dbt.
+## Local development
 
+```bash
+cd reports
+npm install          # first time
+npm run sources      # refresh parquet from ../ecommerce_analytics.duckdb
+npm run dev          # http://localhost:3000
+```
 
+## Production build
 
-## Learning More
+```bash
+npm run build        # output → build/ecommerce-analytics-dbt/
+npm run preview      # serve the built site locally
+```
 
-- [Docs](https://docs.evidence.dev/)
-- [Github](https://github.com/evidence-dev/evidence)
-- [Slack Community](https://slack.evidence.dev/)
-- [Evidence Home Page](https://www.evidence.dev)
+The build uses `deployment.basePath: /ecommerce-analytics-dbt` in
+[`evidence.config.yaml`](evidence.config.yaml) for GitHub Pages. See
+[`docs/DEPLOY.md`](../docs/DEPLOY.md) for the CI deploy workflow.
+
+## Style
+
+Chart and layout rules: [`STYLE.md`](STYLE.md)
+
+## Pages
+
+| Page | File | Content |
+|------|------|---------|
+| Executive summary | [`pages/index.md`](pages/index.md) | KPIs, revenue trend, AOV, refund rate |
+| Revenue & products | [`pages/revenue.md`](pages/revenue.md) | Top products by revenue and order count |
+
+Main project docs: [`../README.md`](../README.md) ·
+[`../docs/DESIGN.md`](../docs/DESIGN.md) ·
+[`../docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md)

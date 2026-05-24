@@ -31,7 +31,7 @@ transaction occurred — not whatever the name happens to be today.
     yFmt=usd0
     sort=false
     title="Top 10 products by gross revenue"
-    subtitle="Across the current 7-day window. Refunded transactions excluded."
+    subtitle="Completed and partially refunded orders; fully refunded excluded."
     yAxisTitle=" "
     xAxisTitle=" "
     seriesColors={["#003262"]}
@@ -65,7 +65,7 @@ ranking past products that sell more units.
     y=orders
     sort=false
     title="Top 10 products by order count"
-    subtitle="Unit-volume leaders, refunded transactions excluded"
+    subtitle="Completed and partially refunded orders; fully refunded excluded."
     yAxisTitle=" "
     xAxisTitle=" "
     seriesColors={["#46535E"]}

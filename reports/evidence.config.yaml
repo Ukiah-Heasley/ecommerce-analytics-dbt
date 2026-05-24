@@ -57,6 +57,10 @@ theme:
       light: "#EE1F60"   # Rose Garden
       dark: "#F0537A"
 
+# GitHub Pages serves at https://<user>.github.io/ecommerce-analytics-dbt/
+deployment:
+  basePath: /ecommerce-analytics-dbt
+
 plugins:
   components:
     "@evidence-dev/core-components": {}

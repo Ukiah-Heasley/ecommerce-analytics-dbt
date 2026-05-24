@@ -1,5 +1,7 @@
 # ecommerce-analytics-dbt
 
+![CI](https://github.com/Ukiah-Heasley/ecommerce-analytics-dbt/actions/workflows/ci.yml/badge.svg)
+
 End-to-end dbt + DuckDB pipeline modeling an e-commerce warehouse: simulated
 source extracts → raw landing → staging → intermediate → marts, with SCD2
 snapshots, identity resolution, late-arrival handling, and audit tests.
@@ -104,12 +106,15 @@ A static-HTML dashboard ([Evidence.dev](https://evidence.dev/)) lives in
 rules baked in via [reports/STYLE.md](reports/STYLE.md) +
 [reports/evidence.config.yaml](reports/evidence.config.yaml).
 
+**Live demo:** [ukiah-heasley.github.io/ecommerce-analytics-dbt](https://ukiah-heasley.github.io/ecommerce-analytics-dbt/)
+— published on push to `master` after [GitHub Pages is enabled](docs/DEPLOY.md).
+
 ```bash
 cd reports
 npm install                 # first time only
 npm run sources             # materialize queries from ../ecommerce_analytics.duckdb
 npm run dev                 # http://localhost:3000 — live-reload
-npm run build               # static site to reports/build/
+npm run build               # static site to reports/build/ecommerce-analytics-dbt/
 ```
 
 The starter dashboard ships with revenue / AOV / refund-rate / top-products
@@ -120,6 +125,8 @@ charts on two pages ([revenue detail](reports/pages/revenue.md)).
 Key decisions and rationale in [docs/DESIGN.md](docs/DESIGN.md): E+L/T
 separation, snapshot scope, identity resolution, default-row pattern,
 bounded replay for late-arriving dims, point-in-time joins.
+
+Pipeline overview: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## License
 
